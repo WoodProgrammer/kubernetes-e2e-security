@@ -25,8 +25,8 @@
 * [Cloud Provider Security Best Practices](#cloud-provider-security-best-practices)
   * [AWS](#aws)
 
-* [TLS Certificates in a Cluster ](#client-level-security-best-practices)
-  * [Trusting TLS in a Cluster](#tls #ssl)
+* [Certificates Authority in a Cluster ](#client-level-security-best-practices)
+  * Trusting TLS in a Cluster(#tls #ssl)
 
 ## Motivation
 
@@ -182,7 +182,10 @@ https://github.com/kubernetes/kubernetes/issues/68522
 ### AWS
 
 
-### TLS Certificates in a Cluster
+---
+
+
+## Certificates Authority in a Cluster
 
 Kubernetes API Server can connect between client and API Server via TLS communication, so that you can create and rotate your TLS certification between cluster and client . 
 
