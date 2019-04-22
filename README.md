@@ -25,6 +25,8 @@
 * [Cloud Provider Security Best Practices](#cloud-provider-security-best-practices)
   * [AWS](#aws)
 
+* [TLS Certificates in a Cluster ](#client-level-security-best-practices)
+  * [Trusting TLS in a Cluster](#tls #ssl)
 
 ## Motivation
 
@@ -178,3 +180,58 @@ https://github.com/kubernetes/kubernetes/issues/68522
 // TODO
 
 ### AWS
+
+
+### TLS Certificates in a Cluster
+
+Kubernetes API Server can connect between client and API Server via TLS communication, so that you can create and rotate your TLS certification between cluster and client . 
+
+##### How ??
+You can create C.A configuration file, certificate and private key file 
+
+
+      cat > ca-config.json <<EOF
+      {
+        "signing": {
+          "default": {
+            "expiry": "8760h"
+          },
+          "profiles": {
+            "kubernetes": {
+              "usages": ["signing", "key encipherment", "server auth", "client auth"],
+              "expiry": "8760h"
+            }
+          }
+        }
+      }
+      EOF
+
+      cat > ca-csr.json <<EOF
+      {
+        "CN": "Kubernetes",
+        "key": {
+          "algo": "rsa",
+          "size": 2048
+        },
+        "names": [
+          {
+            "C": "US",
+            "L": "Portland",
+            "O": "Kubernetes",
+            "OU": "CA",
+            "ST": "Oregon"
+          }
+        ]
+      }
+      EOF
+
+Also you can create these process for controller, etcd and workers(worker-0 ... worker-n) nodes ,
+serviceaccounts, apiserver/controller  .
+
+Share these certificate authority files deal out to true node for example you can share; 
+  * ca.pem ca-key.pem 
+  * kubernetes-key.pem
+  * kubernetes.pem  
+  * service-account-key.pem files via scp, or any transfer command to related nodes . 
+
+These files are at the below must deploying to controller nodes. 
