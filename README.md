@@ -238,3 +238,15 @@ Share these certificate authority files deal out to true node for example you ca
   * service-account-key.pem files via scp, or any transfer command to related nodes . 
 
 These files are at the below must deploying to controller nodes. 
+
+## What if it isn't?
+
+If you make your authentication, which cluster mechanism you have (kops, EKS ,Google Cloud ), default authentication methods are overriding Least-Privileged concern . 
+
+     kops export kubecfg --name $CLUSTER_NAME  ##Direct Admin
+     
+So that you must create certification by each user/group for k8s and you can seperate the authorization permissions more clearly . 
+
+
+
+
